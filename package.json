@@ -1,6 +1,6 @@
 {
     "name": "local-store-h5",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "H5本地存储增强",
     "main": "index.js",
     "scripts": {
