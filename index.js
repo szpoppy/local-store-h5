@@ -79,86 +79,94 @@
         return null;
     }
 
-    return {
-        preposition: ":",
-        /**
-         * 获取本地存储
-         * @param {String} key
-         */
-        getItem: function(key) {
-            key = this.preposition + key;
-            var value = LS.getItem(key);
-            var json = null;
-            try {
-                json = JSON.parse(value);
-            } catch (e) {}
-            if (!json) {
-                // 非
-                return null;
-            }
+    function LSClass(pre) {
+        this.preposition = pre || ":";
+    }
+    /**
+     * 获取本地存储
+     * @param {String} key
+     */
+    LSClass.prototype.getItem = function(key) {
+        key = this.preposition + key;
+        var value = LS.getItem(key);
+        var json = null;
+        try {
+            json = JSON.parse(value);
+        } catch (e) {}
+        if (!json) {
+            // 非
+            return null;
+        }
 
-            // 检测是否过期
-            var expiration = json.koi_expiration;
-            var isOut = false;
-            if (expiration) {
-                var now = new Date().getTime();
-                if (expiration !== -1 && now > expiration) {
-                    // 没过期
-                    isOut = true;
-                }
-            }
-            var session = json.koi_session;
-            if (session && session == sKey) {
+        // 检测是否过期
+        var expiration = json.koi_expiration;
+        var isOut = false;
+        if (expiration) {
+            var now = new Date().getTime();
+            if (expiration !== -1 && now > expiration) {
+                // 没过期
                 isOut = true;
             }
-            if (isOut) {
-                remove(key);
-                return null;
-            }
-            return json.item;
-        },
-        /**
-         * 设置本地存储
-         * @param {String} key
-         * @param {*} value
-         * @param {Number|String|Date} expiration 0:进程，-1:永久，数字:天数，字符串，日期
-         */
-        setItem: function(key, value, expiration) {
-            key = this.preposition + key;
-            var json = { item: value };
-            if (expiration === undefined) {
-                expiration = 0;
-            }
-            var type = typeof expiration;
-            if (type === "number") {
-                if (expiration === 0) {
-                    json.koi_session = sKey;
-                } else if (expiration === -1) {
-                    json.koi_expiration = -1;
-                } else {
-                    json.koi_expiration = new Date().getTime() + expiration * 24 * 60 * 60 * 1000;
-                }
-            } else {
-                // 过期时间 设置为 固定时间
-                if (type === "string") {
-                    expiration = new Date(
-                        expiration
-                            .replace(/\-/g, "/")
-                            .replace(/T/, " ")
-                            .replace(/\.\d*$/, "")
-                    );
-                }
-                json.koi_expiration = expiration.getTime();
-            }
-            LS.setItem(key, JSON.stringify(json));
-        },
-        /**
-         * 移除数据
-         * @param {String} key
-         */
-        removeItem: function(key) {
-            key = this.preposition + key;
-            remove(key);
         }
+        var session = json.koi_session;
+        if (session && session == sKey) {
+            isOut = true;
+        }
+        if (isOut) {
+            remove(key);
+            return null;
+        }
+        return json.item;
     };
+
+    /**
+     * 设置本地存储
+     * @param {String} key
+     * @param {*} value
+     * @param {Number|String|Date} expiration 0:进程，-1:永久，数字:天数，字符串，日期
+     */
+
+    LSClass.prototype.setItem = function(key, value, expiration) {
+        key = this.preposition + key;
+        var json = { item: value };
+        if (expiration === undefined) {
+            expiration = 0;
+        }
+        var type = typeof expiration;
+        if (type === "number") {
+            if (expiration === 0) {
+                json.koi_session = sKey;
+            } else if (expiration === -1) {
+                json.koi_expiration = -1;
+            } else {
+                json.koi_expiration = new Date().getTime() + expiration * 24 * 60 * 60 * 1000;
+            }
+        } else {
+            // 过期时间 设置为 固定时间
+            if (type === "string") {
+                expiration = new Date(
+                    expiration
+                        .replace(/\-/g, "/")
+                        .replace(/T/, " ")
+                        .replace(/\.\d*$/, "")
+                );
+            }
+            json.koi_expiration = expiration.getTime();
+        }
+        LS.setItem(key, JSON.stringify(json));
+    };
+
+    /**
+     * 移除数据
+     * @param {String} key
+     */
+    LSClass.prototype.removeItem = function(key) {
+        key = this.preposition + key;
+        remove(key);
+    };
+
+    var ls = new LSClass(":");
+    ls.LSStore = LSClass;
+
+    return ls;
 });
