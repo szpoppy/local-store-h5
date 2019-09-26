@@ -4,11 +4,11 @@
         module.exports = factory();
         return;
     }
-    if (typeof define === "function" && define.amd) {
-        define(factory);
+    if (typeof global.define === "function" && global.define.amd) {
+        global.define(factory);
         return;
     }
-    global.store = factory();
+    global.storeFn = factory();
 })(window, function() {
     "use strict";
     var soleTime = new Date().getTime() - 1000000;
