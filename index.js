@@ -104,12 +104,13 @@
         if (expiration) {
             var now = new Date().getTime();
             if (expiration !== -1 && now > expiration) {
-                // 没过期
+                // 过期
                 isOut = true;
             }
         }
         var session = json.koi_session;
-        if (session && session == sKey) {
+        if (session && session != sKey) {
+            // 过期
             isOut = true;
         }
         if (isOut) {
