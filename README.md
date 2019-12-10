@@ -1,8 +1,8 @@
 # local-store-h5
 
--   H5 本地存储增强
--   支持对本地存储设置过期时间
--   当浏览器无法使用本地存储是（无痕模式），会自动降级，将数据存入内存中
+- H5 本地存储增强
+- 支持对本地存储设置过期时间
+- 当浏览器无法使用本地存储是（无痕模式），会自动降级，将数据存入内存中
 
 ## 安装
 
@@ -45,36 +45,36 @@ let store4 = new store.LSStore("v4#");
 
 > store.prepreposition
 
--   为了和原生的本地存储区分，特地在所有通过此设置的数据，都加上前缀
--   此前缀可以修改
+- 为了和原生的本地存储区分，特地在所有通过此设置的数据，都加上前缀
+- 此前缀可以修改
 
 ### 存储
 
 > store.setItem(key:string, value: any [,expiration:string;data;number = 0])
 
--   key 本地存储的唯一 key
--   value 存入的基础数据
--   expiration 什么时候过期 默认为 0
-    -   -1 永久不过期 相当于 localStorage
-    -   0 相当于 sessionStorage
-    -   大于 0 几天后过期
-    -   时间字符串 过期时间
-    -   日期 过期时间
+- key 本地存储的唯一 key
+- value 存入的基础数据
+- expiration 什么时候过期 默认为 0
+  - -1 永久不过期 相当于 localStorage
+  - 0 相当于 sessionStorage
+  - 大于 0 几天后过期
+  - 时间字符串 过期时间
+  - 日期 过期时间
 
 ### 获取
 
 > store.getItem(key:string)
 
--   key 本地存储的唯一 key
+- key 本地存储的唯一 key
 
 ### 移除
 
 > store.removeItem(key:string)
 
--   key 本地存储的唯一 key
+- key 本地存储的唯一 key
 
 ### 创建新的本地存储分组
 
 > new store.LSStore(prev:string)
 
--   prev 为本分组存入的本地存储的前缀
+- prev 为本分组存入的本地存储的前缀
