@@ -1,8 +1,8 @@
 {
     "name": "local-store-h5",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "H5本地存储增强",
-    "main": "dist/store.js",
+    "main": "dist/index.js",
     "scripts": {
         "build": "rm -rf ./dist && tsc"
     },
