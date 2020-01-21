@@ -6,7 +6,8 @@
 
 ## 安装
 
-> npm i local-store-h5 --save
+> npm i local-store-h5 --save  
+> TC改造后，使用CommonJS输出，无法直接在html中引用
 
 ## 使用
 
